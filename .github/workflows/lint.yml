@@ -9,11 +9,11 @@ jobs:
       # Checkout the repository
       - name: Checkout the repository
         uses: actions/checkout@v4
-      # Install `buf`
-      - name: Install `buf`
-        uses: bufbuild/buf-setup-action@v1
+      # Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
         with:
-          github_token: ${{ github.token }}
+          version: 'latest'
       # Lint Protobuf files
       - name: Run proto-all
         run: make proto-all
