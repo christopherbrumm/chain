@@ -10,3 +10,6 @@ jobs:
 
   test:
     uses: ./.github/workflows/test.yml
+
+  uncommited-changes:
+    uses: ./.github/workflows/uncommited_changes.yml
