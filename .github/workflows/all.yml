@@ -12,5 +12,5 @@ jobs:
     uses: ./.github/workflows/test.yml
 
   uncommited-changes:
-    needs: [verify-migration-proofs, lint, test]
+    needs: [lint, test]
     uses: ./.github/workflows/uncommited_changes.yml
