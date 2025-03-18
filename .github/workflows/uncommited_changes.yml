@@ -1,0 +1,21 @@
+name: Check for uncommited changes
+
+on:
+  workflow_call:
+
+jobs:
+  go-build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for uncommitted changes
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ -n "$CHANGES" ]]; then
+            echo "Error: Uncommitted changes detected after running build and tests:"
+            echo "$CHANGES"
+            exit 1
+          fi

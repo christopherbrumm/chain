@@ -140,3 +140,9 @@ message RoundRobinProgress {
   // progress_list ...
   repeated RoundRobinSingleValidatorProgress progress_list = 2;
 }
+
+// RoundRobinProgress ...
+message Test {
+  // pool_id ...
+  uint64 pool_id = 1;
+}
