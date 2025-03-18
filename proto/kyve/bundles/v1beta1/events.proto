@@ -157,3 +157,8 @@ message EventPointsReset {
   // staker is the address of the staker who has zero points now
   string staker = 2;
 }
+
+// Test ...
+message Test {
+  uint64 test = 1;
+}

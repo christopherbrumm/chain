@@ -9,16 +9,23 @@ jobs:
       # Checkout the repository
       - name: Checkout the repository
         uses: actions/checkout@v4
-      # Install `buf`
-      - name: Install `buf`
-        uses: bufbuild/buf-setup-action@v1
+      # Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
         with:
-          github_token: ${{ github.token }}
+          version: 'latest'
       # Lint Protobuf files
-      - name: Lint Protobuf files
-        uses: bufbuild/buf-lint-action@v1
-        with:
-          buf_token: ${{ secrets.BUF_TOKEN }}
+      - name: Run proto-all
+        run: make proto-all
+      # Check for uncommitted changes
+      - name: Check for uncommitted changes
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ -n "$CHANGES" ]]; then
+            echo "Error: Uncommitted changes detected:"
+            echo "$CHANGES"
+            exit 1
+          fi
 
   golangci:
     runs-on: ubuntu-latest
@@ -38,3 +45,12 @@ jobs:
           version: latest
           # TODO temporarily disable govet
           args: --timeout=10m -D govet
+      # Check for uncommitted changes
+      - name: Check for uncommitted changes
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ -n "$CHANGES" ]]; then
+            echo "Error: Uncommitted changes detected:"
+            echo "$CHANGES"
+            exit 1
+          fi

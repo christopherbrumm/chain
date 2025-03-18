@@ -15,3 +15,12 @@ jobs:
       - name: Verify migration proofs
         working-directory: ./app/upgrades/v2_0/validator-proofs
         run: python3 verify.py
+      # Check for uncommitted changes
+      - name: Check for uncommitted changes
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ -n "$CHANGES" ]]; then
+            echo "Error: Uncommitted changes detected:"
+            echo "$CHANGES"
+            exit 1
+          fi
