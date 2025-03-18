@@ -19,6 +19,15 @@ jobs:
         uses: bufbuild/buf-lint-action@v1
         with:
           buf_token: ${{ secrets.BUF_TOKEN }}
+      # Check for uncommitted changes
+      - name: Check for uncommitted changes
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ -n "$CHANGES" ]]; then
+            echo "Error: Uncommitted changes detected:"
+            echo "$CHANGES"
+            exit 1
+          fi
 
   golangci:
     runs-on: ubuntu-latest
@@ -38,3 +47,12 @@ jobs:
           version: latest
           # TODO temporarily disable govet
           args: --timeout=10m -D govet
+      # Check for uncommitted changes
+      - name: Check for uncommitted changes
+        run: |
+          CHANGES=$(git status --porcelain)
+          if [[ -n "$CHANGES" ]]; then
+            echo "Error: Uncommitted changes detected:"
+            echo "$CHANGES"
+            exit 1
+          fi
