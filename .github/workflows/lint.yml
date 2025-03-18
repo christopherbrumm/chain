@@ -15,10 +15,8 @@ jobs:
         with:
           github_token: ${{ github.token }}
       # Lint Protobuf files
-      - name: Lint Protobuf files
-        uses: bufbuild/buf-lint-action@v1
-        with:
-          buf_token: ${{ secrets.BUF_TOKEN }}
+      - name: Run proto-all
+        run: make proto-all
       # Check for uncommitted changes
       - name: Check for uncommitted changes
         run: |
